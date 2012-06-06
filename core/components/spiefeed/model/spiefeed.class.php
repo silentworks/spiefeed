@@ -134,6 +134,14 @@ class SimplePieModx {
                 $feed->strip_comments($this->spie['stripComments']);
             if (isset($this->spie['stripHtmlTags']))
                 $feed->strip_htmltags(array_merge($feed->strip_htmltags, $this->spie['stripHtmlTags']));
+            if (isset($this->spie['displayProviderClass'])) {
+                $feedUrl = current(explode('/', preg_replace('/^([a-z]+:\/\/)?(www.)?/', '', $setFeedUrl)));
+                $className = $feedUrl;
+                if (!empty($this->spie['domainList'])) {
+                    $list = $this->modx->fromJSON($this->spie['domainList']);
+                    $className = $list[$feedUrl];
+                }
+            }
 
             /**
              * Initiating the Feeding.
@@ -153,6 +161,7 @@ class SimplePieModx {
                 continue;
             }
             foreach ($feedItems as $item) {
+                $phArray[$joinKey]['provider'] = $className;
                 $phArray[$joinKey]['favicon'] = $feed->get_favicon();
                 $phArray[$joinKey]['link'] = $item->get_link();
                 $phArray[$joinKey]['title'] = $item->get_title();

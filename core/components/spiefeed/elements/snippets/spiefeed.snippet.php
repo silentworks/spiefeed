@@ -65,6 +65,13 @@ foreach ($urls as $k => $v) {
 }
 
 /**
+ * Adding provider placeholder to chunk
+ * List the long name of the domain without the http and www or anything after the tld.
+ */
+$scriptProperties['displayProviderClass'] = $modx->getOption('providerClass', $scriptProperties, FALSE);
+$scriptProperties['domainList'] = $modx->getOption('domainList', $scriptProperties, '');
+
+/**
  * This option allows you to disable caching all-together in SimplePie.
  * However, disabling the cache can lead to longer load times.
  * @var 0 | 1
